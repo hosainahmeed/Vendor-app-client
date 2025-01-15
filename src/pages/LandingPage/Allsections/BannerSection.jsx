@@ -1,9 +1,11 @@
-import React from 'react'
+import CarouselComponent from "../../../components/Carosel/CarouselComponent";
 
 function BannerSection() {
-    return (
-        <div className='area'>BannerSection</div>
-    )
+  return (
+    <div className="area">
+      <CarouselComponent/>
+    </div>
+  );
 }
 
-export default BannerSection
+export default BannerSection;

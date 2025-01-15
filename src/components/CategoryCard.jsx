@@ -1,18 +1,18 @@
-import { Card } from 'antd'
-import React from 'react'
+import { Card } from "antd";
+import React from "react";
 
-function CategoryCard() {
+function CategoryCard({ data }) {
+  const { image, name } = data;
   return (
-    <div><Card
-      style={{
-        width: 300,
-      }}
-    >
-      <p>Card content</p>
-      <p>Card content</p>
-      <p>Card content</p>
-    </Card></div>
-  )
+    <div>
+      <Card>
+        <div className="flex flex-col items-center justify-center gap-2">
+          <img className="w-24  h-24 object-cover" src={image}></img>
+          <p className="font-bold">{name}</p>
+        </div>
+      </Card>
+    </div>
+  );
 }
 
-export default CategoryCard
+export default CategoryCard;
