@@ -11,7 +11,6 @@ function TopCategory() {
       try {
         const response = await axios.get("/top.json");
         setCategories(response.data.categories);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching top categories:", error);
       }
@@ -19,8 +18,6 @@ function TopCategory() {
 
     fetchCategories();
   }, []);
-  console.log(categories);
-
   return (
     <div className="area">
       <CategoriseTitleHeade title={"Top Categories"}></CategoriseTitleHeade>
