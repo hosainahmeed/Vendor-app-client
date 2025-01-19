@@ -8,7 +8,7 @@ function OriginalOrganicProduct() {
   return (
     <div className="area">
       <CategoriseTitleHeade title={"Original Organic Honey"} />
-      <div className="px-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2">
+      <div className="px-2 grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2">
         {Array.from({ length: 6 }).map((_, idx) => (
           <Card
             key={idx}

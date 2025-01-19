@@ -8,6 +8,7 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { CiMenuFries } from "react-icons/ci";
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -112,6 +113,35 @@ const categoriesMenu = (
   </Menu>
 );
 
+const ListItems = (
+  <Menu
+    style={{
+      backgroundColor: "#008000",
+      borderRadius: "0px",
+    }}
+  >
+    {navbarItems.map((category) => (
+      <Menu.Item
+        key={category.key}
+        style={{
+          backgroundColor: "#008000",
+          borderRadius: "0px",
+        }}
+      >
+        <Link
+          to={category.path}
+          style={{
+            color: "white",
+            textDecoration: "none",
+          }}
+        >
+          {category.label}
+        </Link>
+      </Menu.Item>
+    ))}
+  </Menu>
+);
+
 const MenuBarItem = () => {
   return (
     <Layout
@@ -122,7 +152,7 @@ const MenuBarItem = () => {
       }}
     >
       <Header
-        className="area"
+        className="area flex items-center md:justify-start justify-between"
         style={{ backgroundColor: "#008000", padding: "0 20px" }}
       >
         <Dropdown
@@ -148,21 +178,45 @@ const MenuBarItem = () => {
         </Dropdown>
 
         {/* Navbar Items with Links */}
-        {navbarItems.map((item) => (
-          <Link
-            key={item.key}
-            to={item.path}
+        <div className="hidden md:flex">
+          {navbarItems.map((item) => (
+            <Link
+              key={item.key}
+              to={item.path}
+              style={{
+                color: "white",
+                fontSize: "16px",
+                cursor: "pointer",
+                marginLeft: "20px",
+                textDecoration: "none",
+              }}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        <Dropdown
+          className="md:hidden flex"
+          overlay={ListItems}
+          trigger={["hover"]}
+          overlayStyle={{
+            backgroundColor: "#008000",
+            borderRadius: "0px",
+          }}
+          placement="bottomLeft"
+        >
+          <Text
             style={{
               color: "white",
               fontSize: "16px",
               cursor: "pointer",
-              marginLeft: "20px",
-              textDecoration: "none",
+              marginRight: "20px",
             }}
           >
-            {item.label}
-          </Link>
-        ))}
+            <CiMenuFries className="text-white text-xl" />
+          </Text>
+        </Dropdown>
       </Header>
     </Layout>
   );

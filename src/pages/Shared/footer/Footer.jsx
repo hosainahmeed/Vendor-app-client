@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import {
   FaFacebook,
@@ -9,9 +8,9 @@ import {
 
 function Footer() {
   return (
-    <footer className="bg-gray-100 text-gray-700">
-      <div className="">
-        <div className="area">
+    <footer className="bg-gray-100 text-gray-700 ">
+      <div>
+        <div className="area px-2">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {/* Brand Section */}
             <div>

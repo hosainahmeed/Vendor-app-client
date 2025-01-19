@@ -1,4 +1,3 @@
-import React from "react";
 import BannerSection from "./Allsections/BannerSection";
 import NewUpdate from "./Allsections/NewUpdate";
 import TopCategory from "./Allsections/TopCategory";
