@@ -10,7 +10,7 @@ function Card({ data, id, isHovered, onHover, onLeave }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  const productRating = parseFloat(data?.product_rating) || 0; 
+  const productRating = parseFloat(data?.product_rating) || 0;
 
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
