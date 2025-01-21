@@ -3,25 +3,28 @@
 @tailwind utilities;
 
 body {
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
 }
 
 #serchResultBox::-webkit-scrollbar {
   display: none;
 }
+#remove-scroll::-webkit-scrollbar {
+  display: none;
+}
 
 .area {
-  @apply container mx-auto
+  @apply container mx-auto;
 }
 
 .flex-center {
-  @apply flex items-center justify-center
+  @apply flex items-center justify-center;
 }
 
 .flex-bet {
-  @apply flex items-center justify-between
+  @apply flex items-center justify-between;
 }
 
 .flex-center-col {
-  @apply flex items-center justify-center flex-col
+  @apply flex items-center justify-center flex-col;
 }

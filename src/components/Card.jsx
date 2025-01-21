@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { TbListDetails } from "react-icons/tb";
 import StarRatings from "react-star-ratings";
 
-function Card({ data, id, isHovered, onHover, onLeave }) {
+function Card({ listView, data, id, isHovered, onHover, onLeave }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
@@ -39,12 +39,16 @@ function Card({ data, id, isHovered, onHover, onLeave }) {
   return (
     <>
       <motion.div
-        className="rounded-md shadow-sm overflow-hidden bg-white"
+        className={`${
+          listView ? "flex" : ""
+        } rounded-md shadow-sm p-2 overflow-hidden bg-white`}
         onMouseEnter={onHover}
         onMouseLeave={onLeave}
       >
         <img
-          className="w-full h-56 object-cover"
+          className={`${
+            listView ? "w-96 object-cover h-56" : "h-48 w-full"
+          } rounded-md object-cover `}
           src={data?.product_image}
           alt={data?.product_name}
         />
@@ -71,7 +75,9 @@ function Card({ data, id, isHovered, onHover, onLeave }) {
             {/* Add to Cart Button */}
             <Popover content="Add To Cart">
               <motion.button
-                className={`gap-2 p-2 rounded-full text-white w-full hidden md:flex items-center justify-center ${
+                className={`${
+                  listView ? "px-12" : ""
+                } gap-2 p-2 rounded-full text-white w-full hidden md:flex items-center justify-center ${
                   isHovered ? "bg-green-600" : "bg-gray-300"
                 } shadow`}
                 variants={iconVariants}
@@ -162,7 +168,7 @@ function Card({ data, id, isHovered, onHover, onLeave }) {
           </div>
           <div className="flex justify-between mt-6">
             <Button onClick={handleCancel}>Close</Button>
-            <Button type="primary" onClick={handleSubmit}>
+            <Button className="bg-green-600" onClick={handleSubmit}>
               Add to Cart
             </Button>
           </div>
