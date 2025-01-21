@@ -12,7 +12,8 @@
     "product_stock": "Yes",
     "product_available_number": "578",
     "product_time": "latest",
-    "product_category": "Organic Spices"
+    "product_category": "Organic Spices",
+    "product_discount": "52"
   },
   {
     "_id": 122334545645123,
@@ -27,7 +28,8 @@
     "product_stock": "Yes",
     "product_available_number": "578",
     "product_time": "latest",
-    "product_category": "Organic Spices"
+    "product_category": "Organic Spices",
+    "product_discount": "34"
   },
   {
     "_id": 1222454543123,
@@ -57,7 +59,8 @@
     "product_stock": "Yes",
     "product_available_number": "578",
     "product_time": "latest",
-    "product_category": "Organic Spices"
+    "product_category": "Organic Spices",
+    "product_discount": "52"
   },
   {
     "_id": 12298964564353123,
@@ -102,7 +105,8 @@
     "product_stock": "Yes",
     "product_available_number": "578",
     "product_time": "latest",
-    "product_category": "Snacks"
+    "product_category": "Snacks",
+    "product_discount": "52"
   },
   {
     "_id": 1223232343243445123,

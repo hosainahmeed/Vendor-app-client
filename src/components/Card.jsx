@@ -40,14 +40,19 @@ function Card({ listView, data, id, isHovered, onHover, onLeave }) {
     <>
       <motion.div
         className={`${
-          listView ? "flex" : ""
-        } rounded-md shadow-sm p-2 overflow-hidden bg-white`}
+          listView ? "flex flex-col lg:flex-row" : ""
+        } rounded-md shadow-sm p-2 overflow-hidden bg-white relative`}
         onMouseEnter={onHover}
         onMouseLeave={onLeave}
       >
+        {data?.product_discount && (
+          <div className="bg-red-500 p-2 inline-flex px-3 text-white absolute rounded-md text-xs top-3 right-3 opacity-85">
+            {data?.product_discount}% OFF 
+          </div>
+        )}
         <img
           className={`${
-            listView ? "w-96 object-cover h-56" : "h-48 w-full"
+            listView ? "w-full lg:w-96 object-cover h-56" : "h-48 w-full"
           } rounded-md object-cover `}
           src={data?.product_image}
           alt={data?.product_name}
@@ -108,17 +113,17 @@ function Card({ listView, data, id, isHovered, onHover, onLeave }) {
             {/* Mobile Buttons */}
             <div className="flex gap-2 flex-col items-center w-full md:hidden justify-center">
               <button
-                className="p-2 rounded-full text-white w-full flex items-center justify-center bg-green-600 shadow"
+                className="p-1 rounded-full  text-white w-full gap-2 flex items-center justify-center bg-green-600 shadow"
                 onClick={showModal}
               >
-                <FiShoppingCart /> <h1>Add to cart</h1>
+                <FiShoppingCart /> <h1 className="mt-3">Add to cart</h1>
               </button>
               <Link
-                className="w-full p-2 flex rounded-full bg-green-600"
+                className="w-full p-1 flex rounded-full bg-green-600"
                 to={`/category/${id}`}
               >
-                <button className="w-full text-white flex items-center justify-center">
-                  <TbListDetails /> View Details
+                <button className="w-full text-white flex gap-3 items-center justify-center">
+                  <TbListDetails /> <h1 className="mt-3">View Details</h1>
                 </button>
               </Link>
             </div>
@@ -166,7 +171,7 @@ function Card({ listView, data, id, isHovered, onHover, onLeave }) {
               +
             </button>
           </div>
-          <div className="flex justify-between mt-6">
+          <div className="flex justify-between items-center mt-6">
             <Button onClick={handleCancel}>Close</Button>
             <Button className="bg-green-600" onClick={handleSubmit}>
               Add to Cart
