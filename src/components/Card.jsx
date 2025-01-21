@@ -79,7 +79,7 @@ function Card({ data, id, isHovered, onHover, onLeave }) {
                 whileTap={{ scale: 0.9 }}
                 onClick={showModal}
               >
-                <FiShoppingCart /> <h1>Add to cart</h1>
+                <FiShoppingCart /> <h1 className="mt-3">Add to cart</h1>
               </motion.button>
             </Popover>
 
