@@ -49,8 +49,6 @@ function LatestProducts() {
       <div className="px-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
         {productData.length > 0 ? (
           productData.map((item) => (
-            // <img src={item.product_image} />
-            // <Card key={item._id} data={item}></Card>
             <Card
               data={item}
               key={item._id}

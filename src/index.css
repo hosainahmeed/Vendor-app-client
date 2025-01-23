@@ -28,3 +28,34 @@ body {
 .flex-center-col {
   @apply flex items-center justify-center flex-col;
 }
+
+.product-details {
+  max-width: 800px;
+  margin: auto;
+}
+
+.image-container {
+  position: relative;
+  max-width: 400px;
+  top: 0;
+  left: 0;
+  margin: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-red-500 {
+  color: red;
+}
+
+.text-gray-600 {
+  color: #4a4a4a;
+}
+
+.text-gray-500 {
+  color: #7a7a7a;
+}
+
+

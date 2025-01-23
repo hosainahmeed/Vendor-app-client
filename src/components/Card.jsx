@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FiShoppingCart } from "react-icons/fi";
@@ -35,6 +36,7 @@ function Card({ listView, data, id, isHovered, onHover, onLeave }) {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
   };
+  console.log(id);
 
   return (
     <>
@@ -47,7 +49,7 @@ function Card({ listView, data, id, isHovered, onHover, onLeave }) {
       >
         {data?.product_discount && (
           <div className="bg-red-500 p-2 inline-flex px-3 text-white absolute rounded-md text-xs top-3 right-3 opacity-85">
-            {data?.product_discount}% OFF 
+            {data?.product_discount}% OFF
           </div>
         )}
         <img
@@ -120,7 +122,7 @@ function Card({ listView, data, id, isHovered, onHover, onLeave }) {
               </button>
               <Link
                 className="w-full p-1 flex rounded-full bg-green-600"
-                to={`/category/${id}`}
+                to={`/category/${data?._id}`}
               >
                 <button className="w-full text-white flex gap-3 items-center justify-center">
                   <TbListDetails /> <h1 className="mt-3">View Details</h1>

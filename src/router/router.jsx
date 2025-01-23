@@ -17,6 +17,25 @@ const router = createBrowserRouter([
       {
         path: "/category/:id",
         element: <ProductDetails />,
+        loader: async ({ params }) => {
+          try {
+            const response = await fetch(`/ProductData.json`);
+            if (!response.ok) {
+              throw new Error("Failed to fetch product data");
+            }
+            const products = await response.json();
+            const product = products.find(
+              (item) => item._id.toString() === params.id
+            ); 
+            if (!product) {
+              throw new Error("Product not found");
+            }
+            return product; 
+          } catch (err) {
+            console.error("Error fetching product details:", err);
+            return null;
+          }
+        },
       },
       {
         path: "/products",
