@@ -13,6 +13,5 @@ function MainLayOut() {
     </div>
   );
 }
-// max-w-screen-lg mx-auto px-2
 
 export default MainLayOut;

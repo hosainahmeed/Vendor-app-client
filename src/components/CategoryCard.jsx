@@ -1,6 +1,5 @@
+/* eslint-disable react/prop-types */
 import { Card } from "antd";
-import React from "react";
-
 function CategoryCard({ data }) {
   const { image, name } = data;
   return (

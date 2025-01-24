@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Input, Button, Form } from "antd";
 import Swal from "sweetalert2";
 
@@ -19,7 +19,7 @@ function Newsletter() {
       title: "Subscribed!",
       text: "Thank you for subscribing to our newsletter.",
     });
-    setEmail(""); // Reset the input field after subscribing
+    setEmail("");
   };
 
   return (

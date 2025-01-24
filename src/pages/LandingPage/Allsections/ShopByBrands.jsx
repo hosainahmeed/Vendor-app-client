@@ -1,4 +1,3 @@
-import React from "react";
 import CategoriseTitleHeade from "../../../components/titleHeader/CategoriseTitleHeade";
 import Marquee from "react-fast-marquee";
 import i1 from "../../../assets/brandImage/i1.png";

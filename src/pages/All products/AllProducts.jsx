@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Slider, Checkbox, Radio, Button, Pagination } from "antd";
 import "antd/dist/reset.css";
 import { FaList } from "react-icons/fa";
@@ -16,13 +16,16 @@ const AllProductsPage = () => {
   const [changeView, setChangeView] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 8; // Number of products per page
-
-  // Filter states
+  const itemsPerPage = 8;
   const [priceRange, setPriceRange] = useState([50, 6000]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [sortOption, setSortOption] = useState("");
+
+  const uniqueBrands = useMemo(
+    () => [...new Set(productData.map((item) => item?.product_brand))],
+    [productData]
+  );
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -42,58 +45,55 @@ const AllProductsPage = () => {
   }, []);
 
   useEffect(() => {
-    // Update current page data whenever filteredData or currentPage changes
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setCurrentPageData(filteredData.slice(startIndex, endIndex));
   }, [filteredData, currentPage]);
 
-  // Filter logic
   const applyFilters = () => {
     let updatedData = [...productData];
 
-    // Filter by price range
     updatedData = updatedData.filter(
       (item) =>
-        item.product_price >= priceRange[0] &&
-        item.product_price <= priceRange[1]
+        item?.product_price >= priceRange[0] &&
+        item?.product_price <= priceRange[1]
     );
 
-    // Filter by selected categories
     if (selectedCategories.length > 0) {
       updatedData = updatedData.filter((item) =>
-        selectedCategories.includes(item.product_category)
+        selectedCategories.includes(item?.product_category)
       );
     }
 
-    // Filter by selected brands
     if (selectedBrands.length > 0) {
       updatedData = updatedData.filter((item) =>
-        selectedBrands.includes(item.product_brand)
+        selectedBrands.includes(item?.product_brand)
       );
     }
 
-    // Sort data
     if (sortOption) {
-      if (sortOption === "highToLow") {
-        updatedData.sort((a, b) => b.product_price - a.product_price);
-      } else if (sortOption === "lowToHigh") {
-        updatedData.sort((a, b) => a.product_price - b.product_price);
-      }
+      updatedData.sort((a, b) =>
+        sortOption === "highToLow"
+          ? b.product_price - a.product_price
+          : a.product_price - b.product_price
+      );
     }
 
     setFilteredData(updatedData);
-    setCurrentPage(1); // Reset to the first page after applying filters
+    setCurrentPage(1);
   };
 
-  // Reset filters
   const resetFilters = () => {
     setPriceRange([50, 6000]);
     setSelectedCategories([]);
     setSelectedBrands([]);
     setSortOption("");
     setFilteredData(productData);
-    setCurrentPage(1); // Reset to the first page after resetting filters
+    setCurrentPage(1);
+  };
+
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (loading) {
@@ -115,7 +115,7 @@ const AllProductsPage = () => {
   return (
     <div className="area flex flex-col md:flex-row bg-gray-100 min-h-screen">
       {/* Sidebar */}
-      <div className="w-full md:w-1/4 bg-white p-4 border-b md:border-r md:border-b-0 border-gray-300">
+      <div className="w-full md:w-1/4 bg-white p-4 border-b md:border-r border-gray-300">
         <h3 className="mb-4 text-lg font-semibold">Price Range</h3>
         <Slider
           range
@@ -125,6 +125,9 @@ const AllProductsPage = () => {
           className="mb-6"
           onChange={(value) => setPriceRange(value)}
         />
+        <p className="mb-6 text-sm text-gray-500">
+          Selected Range: {priceRange[0]} - {priceRange[1]}
+        </p>
 
         <h3 className="mb-4 text-lg font-semibold">Sub Category</h3>
         <Radio.Group
@@ -140,22 +143,20 @@ const AllProductsPage = () => {
 
         <h3 className="mb-4 text-lg font-semibold">Brand</h3>
         <div className="flex flex-col mb-6">
-          {["Pran", "Megi", "Nestle", "Cadbeery", "Ifad", "BD", "Squre"].map(
-            (brand) => (
-              <Checkbox
-                key={brand}
-                onChange={(e) =>
-                  setSelectedBrands((prev) =>
-                    e.target.checked
-                      ? [...prev, brand]
-                      : prev.filter((b) => b !== brand)
-                  )
-                }
-              >
-                {brand}
-              </Checkbox>
-            )
-          )}
+          {uniqueBrands.map((brand) => (
+            <Checkbox
+              key={brand}
+              onChange={(e) =>
+                setSelectedBrands((prev) =>
+                  e.target.checked
+                    ? [...prev, brand]
+                    : prev.filter((b) => b !== brand)
+                )
+              }
+            >
+              {brand}
+            </Checkbox>
+          ))}
         </div>
 
         <h3 className="mb-4 text-lg font-semibold">Sorting</h3>
@@ -164,11 +165,11 @@ const AllProductsPage = () => {
           value={sortOption}
           onChange={(e) => setSortOption(e.target.value)}
         >
-          <Radio value="highToLow">Price- High To Low</Radio>
-          <Radio value="lowToHigh">Price- Low To High</Radio>
+          <Radio value="highToLow">Price - High To Low</Radio>
+          <Radio value="lowToHigh">Price - Low To High</Radio>
         </Radio.Group>
 
-        <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
+        <div className="flex space-x-4">
           <Button
             type="primary"
             className="bg-green-500"
@@ -187,13 +188,13 @@ const AllProductsPage = () => {
       </div>
 
       {/* Main Content */}
-      <div id="remove-scroll" className="w-full h-screen overflow-x-scroll md:w-3/4 p-4">
+      <div id="remove-scroll" className="w-full h-screen overflow-auto md:w-3/4 p-4">
         <div className="flex justify-start gap-2 mb-6">
           <Button
             className={`${
               !changeView ? "bg-green-600" : "bg-gray-300"
             } text-white flex items-center`}
-            onClick={() => setChangeView(false)} // Grid view
+            onClick={() => setChangeView(false)}
           >
             <IoGridOutline className="mr-2" />
             Grid View
@@ -202,7 +203,7 @@ const AllProductsPage = () => {
             className={`${
               changeView ? "bg-orange-600" : "bg-gray-300"
             } text-white flex items-center`}
-            onClick={() => setChangeView(true)} // List view
+            onClick={() => setChangeView(true)}
           >
             <FaList className="mr-2" />
             List View
@@ -220,12 +221,12 @@ const AllProductsPage = () => {
             currentPageData.map((item) => (
               <Card
                 data={item}
-                key={item._id}
-                id={item._id}
-                isHovered={hoveredCard === item._id}
-                onHover={() => setHoveredCard(item._id)}
+                key={item?._id}
+                id={item?._id}
+                isHovered={hoveredCard === item?._id}
+                onHover={() => setHoveredCard(item?._id)}
                 onLeave={() => setHoveredCard(null)}
-                listView={changeView} // Pass view type to Card if needed
+                listView={changeView}
               />
             ))
           ) : (
@@ -241,7 +242,10 @@ const AllProductsPage = () => {
             current={currentPage}
             pageSize={itemsPerPage}
             total={filteredData.length}
-            onChange={(page) => setCurrentPage(page)}
+            onChange={(page) => {
+              setCurrentPage(page);
+              handleScrollToTop();
+            }}
           />
         </div>
       </div>
