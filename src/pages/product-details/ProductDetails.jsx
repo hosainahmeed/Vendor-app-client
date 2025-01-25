@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import ReactImageMagnify from "react-image-magnify";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 import StarRatings from "react-star-ratings";
 import { Button, notification } from "antd";
 
@@ -48,25 +49,13 @@ function ProductDetails() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Product Image Section */}
           <div>
-            <ReactImageMagnify
-              {...{
-                smallImage: {
-                  alt: data.product_name,
-                  isFluidWidth: true,
-                  src: data?.product_image,
-                },
-                largeImage: {
-                  src: data?.product_image,
-                  width: 1200,
-                  height: 1500,
-                },
-                enlargedImageContainerStyle: {
-                  background: "#fff",
-                  zIndex: 1000,
-                  border: "2px solid #ccc",
-                },
-              }}
-            />
+            <Zoom>
+              <img
+                src={data?.product_image}
+                alt={data.product_name}
+                className="w-full h-auto rounded-lg"
+              />
+            </Zoom>
           </div>
 
           {/* Product Details Section */}
