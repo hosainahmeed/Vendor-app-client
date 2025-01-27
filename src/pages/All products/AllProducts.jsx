@@ -5,8 +5,11 @@ import { FaList } from "react-icons/fa";
 import { IoGridOutline } from "react-icons/io5";
 import axios from "axios";
 import Card from "../../components/Card";
+import { useSearchParams } from "react-router-dom";
 
 const AllProductsPage = () => {
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search");
   const [hoveredCard, setHoveredCard] = useState(null);
   const [productData, setProductData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -21,11 +24,12 @@ const AllProductsPage = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [sortOption, setSortOption] = useState("");
-
   const uniqueBrands = useMemo(
     () => [...new Set(productData.map((item) => item?.product_brand))],
     [productData]
   );
+
+  console.log(searchQuery);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -49,6 +53,7 @@ const AllProductsPage = () => {
     const endIndex = startIndex + itemsPerPage;
     setCurrentPageData(filteredData.slice(startIndex, endIndex));
   }, [filteredData, currentPage]);
+  
 
   const applyFilters = () => {
     let updatedData = [...productData];
@@ -188,7 +193,10 @@ const AllProductsPage = () => {
       </div>
 
       {/* Main Content */}
-      <div id="remove-scroll" className="w-full h-screen overflow-auto md:w-3/4 p-4">
+      <div
+        id="remove-scroll"
+        className="w-full h-screen overflow-auto md:w-3/4 p-4"
+      >
         <div className="flex justify-start gap-2 mb-6">
           <Button
             className={`${

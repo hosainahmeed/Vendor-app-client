@@ -99,7 +99,7 @@ function Card({ listView, data, id, isHovered, onHover, onLeave }) {
             <Popover content="View Details">
               <Link to={`/category/${id}`}>
                 <motion.button
-                  className={`gap-2 p-2 rounded-full text-white w-full hidden md:flex items-center justify-center ${
+                  className={`gap-2 p-4 rounded-full text-white w-full hidden md:flex items-center justify-center ${
                     isHovered ? "bg-green-600" : "bg-gray-300"
                   } shadow`}
                   variants={iconVariants}

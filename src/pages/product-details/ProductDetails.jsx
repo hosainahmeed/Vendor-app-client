@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import StarRatings from "react-star-ratings";
@@ -8,7 +8,7 @@ import { Button, notification } from "antd";
 function ProductDetails() {
   const data = useLoaderData();
   const productRating = parseFloat(data?.product_rating) || 0;
-
+  const navigate = useNavigate();
   // State for Quantity and Price
   const [quantity, setQuantity] = useState(1);
 
@@ -21,11 +21,13 @@ function ProductDetails() {
   // Handle Add to Cart
   const handleAddToCart = () => {
     const cartData = {
+      productID: data._id,
       productName: data.product_name,
       productCode: data.product_code,
       price: data.product_price * quantity,
       quantity: quantity,
     };
+    localStorage.setItem("addToCart", data._id);
     console.log("Added to Cart:", cartData);
 
     notification.success({
@@ -33,6 +35,18 @@ function ProductDetails() {
       description: `${data.product_name} has been added to your cart.`,
       placement: "topRight",
     });
+  };
+
+  const handleGoToPayment = () => {
+    const selectProductData = {
+      productImage: data?.product_image,
+      productID: data._id,
+      productName: data?.product_name,
+      productCode: data?.product_code,
+      price: data?.product_price * quantity,
+      quantity: quantity,
+    };
+    navigate("/payment", { state: selectProductData });
   };
 
   if (!data) {
@@ -130,6 +144,7 @@ function ProductDetails() {
                 Add to Cart
               </Button>
               <Button
+                onClick={() => handleGoToPayment()}
                 type="default"
                 size="large"
                 className="bg-green-500 text-white hover:bg-green-600"

@@ -1,56 +1,20 @@
 import { useState, useEffect } from "react";
-import {
-  TextField,
-  InputAdornment,
-  IconButton,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-} from "@mui/material";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { motion } from "framer-motion";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const [placeholder, setPlaceholder] = useState("");
   const [inputValue, setInputValue] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [productData, setProductData] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [productsTitle, setProductsTitle] = useState([]);
-  const placeholderText = "search by product name";
+  const placeholderText = "Search by product name";
+  const navigate = useNavigate();
 
-  // Fetch product data
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get("/ProductData.json");
-        setProductData(response.data);
-      } catch (err) {
-        console.error("Error fetching product data:", err);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  // Extract product names when data changes
-  useEffect(() => {
-    if (productData.length > 0) {
-      setProductsTitle(productData.map((item) => item?.product_name));
-    }
-  }, [productData]);
-
-  // Typing animation for placeholder
-  useEffect(() => {
-    let index = 0;
-
     const typingInterval = setInterval(() => {
       setPlaceholder((prev) => {
         if (prev.length === placeholderText.length) {
           clearInterval(typingInterval);
-          setTimeout(() => setPlaceholder(""), 1500); // Delay before restart
+          setTimeout(() => setPlaceholder(""), 1500);
           return prev;
         }
         return placeholderText.slice(0, prev.length + 1);
@@ -60,39 +24,30 @@ const SearchBar = () => {
     return () => clearInterval(typingInterval);
   }, []);
 
-  // Handle input changes
   const handleInputChange = (e) => {
-    const value = e.target.value;
-    setInputValue(value);
+    setInputValue(e.target.value);
+  };
 
-    if (value.trim() !== "") {
-      const matches = productsTitle.filter((product) =>
-        product.toLowerCase().includes(value.toLowerCase())
-      );
-      setFilteredProducts(matches);
-      setIsOpen(true);
-    } else {
-      setFilteredProducts([]);
-      setIsOpen(false);
+  const handleSearch = () => {
+    if (inputValue.trim() !== "") {
+      navigate(`/products?search=${encodeURIComponent(inputValue.trim())}`);
     }
   };
 
-  // Handle search click
-  const handleSearch = () => {
-    console.log("Search Input:", inputValue);
-    if (inputValue.trim() === "") {
-      setIsOpen(false);
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
     }
   };
 
   return (
-    <div className="w-full relative">
-      {/* Search Input */}
+    <div className="w-full">
       <TextField
         variant="outlined"
         placeholder={placeholder}
         value={inputValue}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
         fullWidth
         sx={{
           "& .MuiOutlinedInput-root": {
@@ -102,13 +57,7 @@ const SearchBar = () => {
           },
           "& .MuiOutlinedInput-notchedOutline": {
             borderColor: "transparent",
-            outline: "none",
-            border: "none",
           },
-          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-            {
-              borderColor: "transparent",
-            },
         }}
         InputProps={{
           endAdornment: (
@@ -120,50 +69,6 @@ const SearchBar = () => {
           ),
         }}
       />
-
-      {/* Search Suggestions Dropdown */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.2 }}
-        >
-          <Paper
-            elevation={3}
-            style={{
-              position: "absolute",
-              width: "100%",
-              maxHeight: "200px",
-              overflowY: "auto",
-              zIndex: 10,
-              marginTop: "5px",
-              borderRadius: "5px",
-            }}
-          >
-            <List>
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((product, index) => (
-                  <ListItem
-                    key={index}
-                    button
-                    onClick={() => {
-                      setInputValue(product);
-                      setIsOpen(false);
-                    }}
-                  >
-                    <ListItemText primary={product} />
-                  </ListItem>
-                ))
-              ) : (
-                <ListItem>
-                  <ListItemText primary="No Match Found" />
-                </ListItem>
-              )}
-            </List>
-          </Paper>
-        </motion.div>
-      )}
     </div>
   );
 };

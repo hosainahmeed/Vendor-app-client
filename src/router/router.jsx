@@ -4,6 +4,7 @@ import Home from "../pages/LandingPage/Home";
 import ProductDetails from "../pages/product-details/ProductDetails";
 import AllProducts from "../pages/All products/AllProducts";
 import ContactUsPage from "../pages/ContactUsPage/ContactUsPage";
+import Payment from "../pages/Payment/Payment.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,11 +27,11 @@ const router = createBrowserRouter([
             const products = await response.json();
             const product = products.find(
               (item) => item._id.toString() === params.id
-            ); 
+            );
             if (!product) {
               throw new Error("Product not found");
             }
-            return product; 
+            return product;
           } catch (err) {
             console.error("Error fetching product details:", err);
             return null;
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: <ContactUsPage />,
+      },
+      {
+        path: "/payment",
+        element: <Payment />,
       },
     ],
   },
