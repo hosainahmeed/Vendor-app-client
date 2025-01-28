@@ -11,6 +11,7 @@ import {
   Typography,
   Divider,
   Grid,
+  notification,
 } from "antd";
 
 const { Title, Text } = Typography;
@@ -23,16 +24,39 @@ function Payment() {
 
   const [form] = Form.useForm();
   const [shippingCharge, setShippingCharge] = useState(0);
+  const [hover, setHover] = useState(false);
   const screens = useBreakpoint();
 
   const handleLocationChange = (value) => {
     setShippingCharge(value === "Inside Dhaka" ? 60 : 120);
   };
 
+  const handleOrder = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        console.log({
+          ...values,
+          productName,
+          price,
+          shippingCharge,
+          total: price + shippingCharge,
+        });
+
+        notification.success({
+          message: "Order Placed Successfully",
+          description: "Your order has been submitted!",
+        });
+      })
+      .catch((errorInfo) => {
+        console.error("Validation Failed:", errorInfo);
+      });
+  };
+
   const totalPrice = price + shippingCharge;
 
   return (
-    <div className="area flex items-center justify-center bg-gray-100  p-4">
+    <div className="area flex items-center justify-center bg-gray-100 p-4">
       <Row
         gutter={[16, 16]}
         className="max-w-6xl mx-auto"
@@ -136,10 +160,17 @@ function Payment() {
                 <Text>{totalPrice} Tk</Text>
               </div>
               <Button
-              type="dashed"
+                type="dashed"
                 block
                 size={screens.xs ? "large" : "middle"}
-                className="mt-4 bg-green-700 text-white hover:bg-green-800 border-none"
+                className={`mt-4 ${
+                  hover
+                    ? "bg-black text-white"
+                    : "bg-green-700 text-white hover:bg-green-800"
+                } border-none`}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+                onClick={handleOrder}
               >
                 Order
               </Button>

@@ -47,6 +47,13 @@ function NavbarHeader() {
 
   return (
     <div className="pt-3 bg-white">
+      <div className="area flex py-2 items-center justify-between">
+        <h1> Have a question? Call us 01917363622</h1>
+        <div className="flex gap-2">
+          <h1 className="hover:bg-green-700 hover:text-white cursor-pointer p-3">Sign In</h1>
+          <h1 className="hover:bg-green-700 hover:text-white cursor-pointer p-3">Sign Up</h1>
+        </div>
+      </div>
       <div className="area flex-bet gap-4 px-2">
         <Link to={"/"}>
           <h3 className="text-lg font-bold text-green-700 text-nowrap">
