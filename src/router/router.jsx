@@ -5,6 +5,7 @@ import ProductDetails from "../pages/product-details/ProductDetails";
 import AllProducts from "../pages/All products/AllProducts";
 import ContactUsPage from "../pages/ContactUsPage/ContactUsPage";
 import Payment from "../pages/Payment/Payment.jsx";
+import AuthPage from "../pages/AuthPages/AuthPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/payment",
         element: <Payment />,
+      },
+      {
+        path: "/auth",
+        element: <AuthPage />,
       },
     ],
   },
